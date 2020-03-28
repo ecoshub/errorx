@@ -29,8 +29,8 @@ func (e *Error) Error() string {
 	if lene == 0 {
 		return fmt.Sprintf("%v: %v, Error Code:%03d ", e.Header, e.Info, e.Code)
 	}
-	str := fmt.Sprintf("%v: %v, Error Code:%03d.", e.Header, e.Info, e.Code) + "\n"
-	str += "Linked Errors:\n"
+	str := fmt.Sprintf("%v: %v, Error Code:%03d", e.Header, e.Info, e.Code)
+	str += " Linked Errors: "
 	for i := 0; i < lene-1; i++ {
 		err := e.Inner[i]
 		str += fmt.Sprintf("\t- %v\t", err.Error())
