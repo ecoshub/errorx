@@ -16,6 +16,11 @@ func New(Header, Info string, Code int) *Error {
 	return &Error{Header: Header, Info: Info, Code: Code}
 }
 
+func (e *Error) ClearLink() *Error {
+	e.Inner = nil
+	return e
+}
+
 func (e *Error) Link(err error) *Error {
 	e.Inner = append(e.Inner, err)
 	return e
@@ -27,10 +32,10 @@ func (e *Error) Error() string {
 	}
 	lene := len(e.Inner)
 	if lene == 0 {
-		return fmt.Sprintf("%v: %v, Error Code:%03d ", e.Header, e.Info, e.Code)
+		return fmt.Sprintf("%v: %v, Error Code:%03d. ", e.Header, e.Info, e.Code)
 	}
-	str := fmt.Sprintf("%v: %v, Error Code:%03d", e.Header, e.Info, e.Code)
-	str += " Linked Errors: "
+	str := fmt.Sprintf("%v: %v, Error Code:%03d. ", e.Header, e.Info, e.Code)
+	str += "Linked Errors: "
 	for i := 0; i < lene-1; i++ {
 		err := e.Inner[i]
 		str += fmt.Sprintf("\t- %v\t", err.Error())
